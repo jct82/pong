@@ -1,0 +1,216 @@
+.match-page .game{
+    position: relative;
+    display:flex;
+    width: 100%;
+    padding: 40px;
+}
+
+.match-page .game .player{
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 60px);
+}
+
+.match-page .info {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.match-page .info > *{
+    display: inline-block;
+}
+
+.match-page .info .rank {
+    margin-right: 20px;
+}
+
+.match-page .main-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.match-page .main-info .score{
+    font-size: 65px;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.match-page .player.opponent .photo{
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.match-page .player.opponent .main-info .score{
+    text-align:left;
+}
+
+.match-page .player.opponent .main-info .photo{
+    order: 2;
+}
+
+.match-page .sep {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    margin-top: 50px;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.match-page .line-game {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.match-page .line-game .player {
+    display: flex;
+    align-items: center;
+    width: calc(50% - 25px);
+    height: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.match-page .line-game .player .score{
+    transition: all 0.3s;
+}
+.match-page .line-game.game-win .player:not(.opponent) {
+    background-color: rgba(212, 226, 210, 0.5);
+}
+.match-page .line-game.game-win .player:not(.opponent) .score{
+    transform: scale(1.5) translateX(-10px);
+}
+.match-page .line-game.game-win .player.opponent{
+    background-color: rgba(226, 142, 136 , 0.3);
+}
+.match-page .line-game.game-win .player.opponent .score{
+    transform: scale(0.8) translateX(18px);
+}
+
+.match-page .line-game.game-loss .player:not(.opponent) {
+    background-color: rgba(226, 142, 136 , 0.3);
+}
+.match-page .line-game.game-loss .player:not(.opponent) .score{
+    transform: scale(0.8) translateX(-18px);
+}
+.match-page .line-game.game-loss .player.opponent{
+    background-color: rgba(212, 226, 210, 0.5);
+}
+.match-page .line-game.game-loss .player.opponent .score{
+    transform: scale(1.5) translateX(10px);
+}
+
+.match-page .line-game .info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin: 0;
+}
+
+.match-page .line-game .photo {
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.match-page .line-game .photo img{
+    width: 100%;
+}
+
+.match-page .line-game .rank,
+.match-page .line-game .name {
+    font-weight: bold;
+    font-size: 18px;
+}
+.match-page .line-game .name {
+    text-align: left;
+}
+.match-page .line-game .rank {
+    width: 35px;
+}
+
+.match-page .line-game .player.opponent .info{
+    order: 2;
+}
+
+.match-page .line-game .player.opponent .photo{
+    order: 2;
+}
+
+.match-page .line-game .player.opponent .rank{
+    order: 1;
+}
+
+.match-page .line-game .player.opponent .name{
+    order: 0;
+    text-align: right;
+}
+
+.match-page .line-game .sep {
+    margin: 0;
+    width: 50px;
+    font-weight: normal;
+}
+
+.match-page .game .replay-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: min-content;
+    width: fit-content;
+    padding: 6px 8px;
+    transform: scale(0) translateY(100px);
+    opacity: 0;
+    animation: btn linear 0.5s forwards;
+    animation-delay: 1.5s;
+}
+
+.match-page .anim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 40px;
+    width: 150px;
+    font-size: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    transform: scale(0) rotate(0) translateY(0px)s;
+    animation: winner 1.5s forwards;
+}
+
+.match-page .game-win .anim {
+    color: green;
+}
+.match-page .game-loss .anim {
+    color: rgb(219, 2, 2);
+}
+
+@keyframes winner { 
+    0%{transform: scale(0) rotate(0) translateY(0px);}
+    100%{transform: scale(3.5) rotate(720deg) translateY(-50px);}
+}
+
+@keyframes btn { 
+    0%{
+        transform: scale(0) translateY(100px);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1) translateY(100px);
+        opacity: 1;
+    }
+}
