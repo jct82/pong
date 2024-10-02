@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import PlayerMatch from "@/components/PlayerMatch";
 import { Player } from "@/helpers/types";
-import { useRouter } from 'next/navigation'
 
 import "@/app/match/styles.css";
 
@@ -33,6 +32,7 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
     const [displayResult, setDisplayResult] = useState(false);
     const [win, setWin] = useState(false);
 
+ 
     if (posterUpdate) {
         // setScore([0, 0]);
         // setProfilePlayer({...player});
@@ -43,9 +43,9 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
     }
 
     useEffect(() => {
-        let handleTimeout;
+        let handleTimeoutMain;
         if ((score[0] < 5 && score[1] < 5) || (Math.abs(score[0] - score[1]) < 2)) {
-            handleTimeout = setTimeout(() => {
+            handleTimeoutMain = setTimeout(() => {
                 setScore(playPoint(chanceRate) ? [score[0] + 1, score[1]] : [score[0], score[1] + 1]);
             }, 800);
         }
@@ -68,15 +68,13 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
                 loss: score[0] > score[1] ? Number(opponent.loss) + 1 : opponent.loss
             };
             if (score[0] > score[1]) setWin(true);
-            console.log('PLAYER', updatedPlayer);
-            console.log('OPPONENT', updatedOpponent);
+            // console.log('PLAYER', updatedPlayer);
+            // console.log('OPPONENT', updatedOpponent);
             updatePlayer(updatedPlayer);
             updatePlayer(updatedOpponent);
             setDisplayResult(true);
-            console.log('PLAYER111', updatedPlayer);
-            console.log('OPPONENT111', updatedOpponent);
         }
-        return () => clearTimeout(handleTimeout);
+        return () => clearTimeout(handleTimeoutMain);
     }, [score]);
 
     

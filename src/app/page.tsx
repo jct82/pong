@@ -27,10 +27,10 @@ function showPlayer(players: Player[], mainPlayer: Player) {
 
 function displayLastScores(series: string) {
   const newSerie = series.split('');
-  return newSerie.map(match => {
-    if (match === '-') return <span className="tobeplayed"></span>
-    if (match === 'W') return <span className="won"></span>
-    if (match === 'L') return <span className="lost"></span>
+  return newSerie.map((match, idx) => {
+    if (match === '-') return <span className="tobeplayed" key={idx}></span>
+    if (match === 'W') return <span className="won" key={idx}></span>
+    if (match === 'L') return <span className="lost" key={idx}></span>
   });
 }
 

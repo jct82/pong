@@ -50,7 +50,7 @@ function getPlayerStat(player: Player) {
     return ((player.accuracy * 3) + (player.speed * 2) + (player.strenght * 2) + player.endurance) / 8;
 }
 
-function setOtherGames(otherMatches: Array<number[]>, players: Player[], updatePlayer:(arg:Player) => void, posterUpdate: boolean) {
+function displayOtherGames(otherMatches: Array<number[]>, players: Player[], updatePlayer:(arg:Player) => void, posterUpdate: boolean) {
     const matchPlayers = otherMatches.map((match) => ([
         players.find((player: Player) => Number(player.id) === match[0]),
         players.find((player: Player) => Number(player.id) === match[1])
@@ -74,18 +74,25 @@ function setOtherGames(otherMatches: Array<number[]>, players: Player[], updateP
 }
 
 export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
-    const currentPlayer = oCurrentPlayer;
+
+
+    const currentPlayer = {...oCurrentPlayer};
     const players = oPlayers;
     const [posterUpdate, setPosterUpdate] = useState(false);
     const posterReverse = () => {setPosterUpdate(!posterUpdate)};
 
-    let newPlayers: Player[] = [];
-    const calendar: Calendar = getSeasonCalendar(players);
+    const [newPlayers, setNewPlayers] = useState<Player[]>([]);
+    const [calendar, setClendar] = useState<Calendar>(getSeasonCalendar(players));
     const setPlayersCopy = useContext(PlayersContext).setAllPlayers;
+
     const updatePlayer: (arg:Player) => void = (player: Player) => {
-        newPlayers.push(player);
+        console.log('PLAYER', player);
+        console.log('AAAAAAAA',newPlayers);
+        setNewPlayers([player]);
+        console.log('BBBBBBBB',newPlayers);
         if (newPlayers.length === players.length) {
-            let newNewPLayers = [];
+            console.log('NEW PLAYERS', newPlayers)
+            let newNewPLayers: Player[] = [];
             players.forEach(plr => {
                 newNewPLayers.push({...newPlayers.find(nplr => nplr.id === plr.id)});
             });
@@ -96,7 +103,7 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
     let currentMatch: Match = [];
     let otherMatches: Match[] = [];
     calendar[currentPlayer.game].forEach((match) => {
-        if (match.indexOf(currentPlayer.id) > -1) {
+        if (match.indexOf(Number(currentPlayer.id)) > -1) {
             currentMatch = match;
         } else {
             otherMatches.push(match);
@@ -123,7 +130,7 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
         isOpponent: true
     }
 
-    const otherGames = setOtherGames(otherMatches, players, updatePlayer, posterUpdate);
+    const [otherGames, setOtherGames] = useState(displayOtherGames(otherMatches, players, updatePlayer, posterUpdate));
     
     return(
         <>
