@@ -29,11 +29,11 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
     const [displayResult, setDisplayResult] = useState(false);
     const [win, setWin] = useState(false);
     if (posterUpdate) {
-        // setScore([0, 0]);
-        // setPlayer1({...player});
-        // setPlayer2({...opponent});
-        // setDisplayResult(false);
-        // setWin(false);
+        setScore([0, 0]);
+        setPlayer1({...player});
+        setPlayer2({...opponent});
+        setDisplayResult(false);
+        setWin(false);
     };
 
     useEffect(() => {
@@ -55,15 +55,13 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
             };
             newPlayer2 = {
                 ...opponent,
-                points: Number(opponent.points) + diff,
+                points: Number(opponent.points) - diff,
                 game: Number(opponent.game) + 1,
                 series: `${diff > 0 ? 'L' : 'W'}${opponent.series.substring(0, 4)}`,
                 win: score[0] > score[1] ? opponent.win : Number(opponent.win) + 1,
                 loss: score[0] > score[1] ? Number(opponent.loss) + 1 : opponent.loss
             };
             if (score[0] > score[1]) setWin(true);
-            // console.log('PLAYER', newPlayer1);
-            // console.log('OPPONENT', newPlayer2);
             updatePlayer(newPlayer1);
             updatePlayer(newPlayer2);
             setDisplayResult(true);

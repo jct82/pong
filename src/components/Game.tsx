@@ -34,12 +34,12 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
 
  
     if (posterUpdate) {
-        // setScore([0, 0]);
-        // setProfilePlayer({...player});
-        // setProfileOpponent({...opponent});
-        // setDisplayResult(false);
-        // setWin(false);
-        // posterReverse();
+        setScore([0, 0]);
+        setProfilePlayer({...player});
+        setProfileOpponent({...opponent});
+        setDisplayResult(false);
+        setWin(false);
+        posterReverse();
     }
 
     useEffect(() => {

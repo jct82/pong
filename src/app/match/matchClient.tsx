@@ -1,5 +1,5 @@
 'use client'
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useRef } from "react";
 import { PlayersContext } from "@/components/layouts/LayoutMain";
 import { Player, Match, Calendar } from "@/helpers/types";
 import Game from "@/components/Game";
@@ -50,7 +50,7 @@ function getPlayerStat(player: Player) {
     return ((player.accuracy * 3) + (player.speed * 2) + (player.strenght * 2) + player.endurance) / 8;
 }
 
-function displayOtherGames(otherMatches: Array<number[]>, players: Player[], updatePlayer:(arg:Player) => void, posterUpdate: boolean) {
+const displayOtherGames = (otherMatches: Array<number[]>, players: Player[], updatePlayer:(arg:Player) => void, posterUpdate: boolean) => {
     const matchPlayers = otherMatches.map((match) => ([
         players.find((player: Player) => Number(player.id) === match[0]),
         players.find((player: Player) => Number(player.id) === match[1])
@@ -81,20 +81,18 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
     const [posterUpdate, setPosterUpdate] = useState(false);
     const posterReverse = () => {setPosterUpdate(!posterUpdate)};
 
-    const [newPlayers, setNewPlayers] = useState<Player[]>([]);
+    const newPlayers = useRef<Player[]>([]);
     const [calendar, setClendar] = useState<Calendar>(getSeasonCalendar(players));
     const setPlayersCopy = useContext(PlayersContext).setAllPlayers;
+    
 
+    console.log('newPlayers', newPlayers);
     const updatePlayer: (arg:Player) => void = (player: Player) => {
-        console.log('PLAYER', player);
-        console.log('AAAAAAAA',newPlayers);
-        setNewPlayers([player]);
-        console.log('BBBBBBBB',newPlayers);
-        if (newPlayers.length === players.length) {
-            console.log('NEW PLAYERS', newPlayers)
+        newPlayers.current = [...newPlayers.current, player];
+        if (newPlayers.current.length === players.length) {
             let newNewPLayers: Player[] = [];
             players.forEach(plr => {
-                newNewPLayers.push({...newPlayers.find(nplr => nplr.id === plr.id)});
+                newNewPLayers.push({...newPlayers.current.find(nplr => nplr.id === plr.id)});
             });
             setPlayersCopy(newNewPLayers);
         }
