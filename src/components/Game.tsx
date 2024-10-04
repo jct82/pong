@@ -16,12 +16,11 @@ interface Props {
     opponent: Player;
     chances: number;
     updatePlayer(player: Player): void;
-    posterUpdate: boolean,
-    posterReverse(): void;
+    posterReverse(toggle:boolean): void;
+    playNext: boolean;
 }
 
-
-export default function Game({player, opponent, chances, updatePlayer, posterUpdate, posterReverse}: Props) {
+export default function Game({player, opponent, chances, updatePlayer, posterReverse, playNext}: Props) {
     const chanceRate = chances;
     let updatedPlayer = {...player};
     let updatedOpponent = {...opponent};
@@ -31,15 +30,14 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
     const [score, setScore] = useState([0, 0]);
     const [displayResult, setDisplayResult] = useState(false);
     const [win, setWin] = useState(false);
-
- 
-    if (posterUpdate) {
+    
+    const updateMoiCa = () => {
         setScore([0, 0]);
         setProfilePlayer({...player});
         setProfileOpponent({...opponent});
         setDisplayResult(false);
-        setWin(false);
-        posterReverse();
+        setWin(false); 
+        posterReverse(true);
     }
 
     useEffect(() => {
@@ -61,15 +59,13 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
             };
             updatedOpponent = {
                 ...opponent,
-                points: Number(opponent.points) + diff,
+                points: Number(opponent.points) - diff,
                 game: Number(opponent.game) + 1,
                 series: `${diff > 0 ? 'L' : 'W'}${opponent.series.substring(0, 4)}`,
                 win: score[0] > score[1] ? opponent.win : Number(opponent.win) + 1,
                 loss: score[0] > score[1] ? Number(opponent.loss) + 1 : opponent.loss
             };
             if (score[0] > score[1]) setWin(true);
-            // console.log('PLAYER', updatedPlayer);
-            // console.log('OPPONENT', updatedOpponent);
             updatePlayer(updatedPlayer);
             updatePlayer(updatedOpponent);
             setDisplayResult(true);
@@ -85,7 +81,7 @@ export default function Game({player, opponent, chances, updatePlayer, posterUpd
                 <div className="sep">VS</div>
                 <PlayerMatch name={profileOpponent.fullname} score={score[1]} rank={profileOpponent.rank} isOpponent={profileOpponent.isOpponent}></PlayerMatch>
                 {displayResult && <div className="anim">{win ? "WINNER" : "LOSER"}</div>}
-                {displayResult && <button className="replay-btn" onClick={() => {posterReverse}}>NEXT MATCH</button>}
+                {playNext && <button className="replay-btn" onClick={() => {updateMoiCa();}}>NEXT MATCH</button>}
             </div>
         </>
     )

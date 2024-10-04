@@ -1,5 +1,5 @@
 'use client'
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { PlayersContext } from "@/components/layouts/LayoutMain";
 import { Player, Match, Calendar } from "@/helpers/types";
 import Game from "@/components/Game";
@@ -50,51 +50,44 @@ function getPlayerStat(player: Player) {
     return ((player.accuracy * 3) + (player.speed * 2) + (player.strenght * 2) + player.endurance) / 8;
 }
 
-const displayOtherGames = (otherMatches: Array<number[]>, players: Player[], updatePlayer:(arg:Player) => void, posterUpdate: boolean) => {
+const setOtherGamesComponent = (otherMatches: Array<number[]>, players: Player[]) => {
     const matchPlayers = otherMatches.map((match) => ([
         players.find((player: Player) => Number(player.id) === match[0]),
         players.find((player: Player) => Number(player.id) === match[1])
     ]));  
-    const matchPlayersWithRank =  matchPlayers.map((match) => ([
-        {...match[0], rank: findRank(match[0]!, players)},
-        {...match[1], rank: findRank(match[1]!, players)}
-    ]));
-    
-    return matchPlayersWithRank.map((match) => {
-        const chances = Math.round((getPlayerStat(match[0]) / getPlayerStat(match[1])) * 100) / 100;
-        return (<OtherGames 
-            key={`${match[0].game}-${match[0].id}`}
-            player={match[0]}
-            opponent={match[1]}
-            chances={chances}
-            updatePlayer={updatePlayer}
-            posterUpdate={posterUpdate}
-        ></OtherGames>);
-    });
+    return matchPlayers.map((match) => ({
+        player1: {...match[0], rank: findRank(match[0]!, players)},
+        player2: {...match[1], rank: findRank(match[1]!, players)},
+        chances: Math.round((getPlayerStat(match[0]) / getPlayerStat(match[1])) * 100) / 100
+    }));
 }
 
 export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
 
-
     const currentPlayer = {...oCurrentPlayer};
     const players = oPlayers;
     const [posterUpdate, setPosterUpdate] = useState(false);
-    const posterReverse = () => {setPosterUpdate(!posterUpdate)};
+    const [playNext, setPlayNext] = useState(false);
+    const posterReverse = (tog: boolean) => {
+        setPosterUpdate(tog);
+        setPlayNext(false);
+    };
 
     const newPlayers = useRef<Player[]>([]);
-    const [calendar, setClendar] = useState<Calendar>(getSeasonCalendar(players));
+    const [calendar, setCalendar] = useState<Calendar>(getSeasonCalendar(players));
     const setPlayersCopy = useContext(PlayersContext).setAllPlayers;
     
-
-    console.log('newPlayers', newPlayers);
     const updatePlayer: (arg:Player) => void = (player: Player) => {
         newPlayers.current = [...newPlayers.current, player];
+        setPosterUpdate(false);
         if (newPlayers.current.length === players.length) {
             let newNewPLayers: Player[] = [];
             players.forEach(plr => {
                 newNewPLayers.push({...newPlayers.current.find(nplr => nplr.id === plr.id)});
             });
             setPlayersCopy(newNewPLayers);
+            newPlayers.current = [];
+            setPlayNext(true);
         }
     };
 
@@ -128,8 +121,8 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
         isOpponent: true
     }
 
-    const [otherGames, setOtherGames] = useState(displayOtherGames(otherMatches, players, updatePlayer, posterUpdate));
-    
+    const otherGames = setOtherGamesComponent(otherMatches, players);
+
     return(
         <>
             <div className="match-page">
@@ -137,13 +130,26 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
                     player={player} 
                     opponent={opponent} 
                     chances={chances} 
-                    updatePlayer={updatePlayer} 
-                    posterUpdate={posterUpdate}
+                    updatePlayer={updatePlayer}
                     posterReverse={posterReverse}
+                    playNext={playNext}
                 >
                 </Game>
                 <div className="tab-games">
-                    {otherGames}
+                    <>
+                    {
+                        otherGames.map((game, idx) => (
+                            <OtherGames 
+                                key={`match-${idx + 1}`}
+                                player={game.player1}
+                                opponent={game.player2}
+                                chances={game.chances}
+                                updatePlayer={updatePlayer}
+                                posterUpdate={posterUpdate}
+                            ></OtherGames>
+                        ))
+                    }
+                    </>
                 </div>
             </div>
         </>

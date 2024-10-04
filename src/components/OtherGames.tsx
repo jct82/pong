@@ -25,11 +25,12 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
 
     const [player1, setPlayer1] = useState({...player});
     const [player2, setPlayer2] = useState({...opponent});
-    const [score, setScore] = useState([0, 0]);
+    const [scoreB, setScoreB] = useState([0, 0]);
     const [displayResult, setDisplayResult] = useState(false);
     const [win, setWin] = useState(false);
-    if (posterUpdate) {
-        setScore([0, 0]);
+    
+    if (posterUpdate && displayResult) {
+        setScoreB([0, 0]);
         setPlayer1({...player});
         setPlayer2({...opponent});
         setDisplayResult(false);
@@ -38,36 +39,36 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
 
     useEffect(() => {
         let handleTimeout;
-        if ((score[0] < 5 && score[1] < 5) || (Math.abs(score[0] - score[1]) < 2)) {
+        if ((scoreB[0] < 5 && scoreB[1] < 5) || (Math.abs(scoreB[0] - scoreB[1]) < 2)) {
             handleTimeout = setTimeout(() => {
-                setScore(playPoint(chanceRate) ? [score[0] + 1, score[1]] : [score[0], score[1] + 1]);
+                setScoreB(playPoint(chanceRate) ? [scoreB[0] + 1, scoreB[1]] : [scoreB[0], scoreB[1] + 1]);
             }, 800);
         }
         else {
-            const diff = score[0] - score[1];
+            const diff = scoreB[0] - scoreB[1];
             newPlayer1 = {
                 ...player,
                 points: Number(player.points) + diff,
                 game: Number(player.game) + 1,
                 series: `${diff > 0 ? 'W' : 'L'}${player.series.substring(0, 4)}`,
-                win: score[0] > score[1] ? Number(player.win) + 1 : player.win,
-                loss: score[0] > score[1] ? player.loss : Number(player.loss) + 1
+                win: scoreB[0] > scoreB[1] ? Number(player.win) + 1 : player.win,
+                loss: scoreB[0] > scoreB[1] ? player.loss : Number(player.loss) + 1
             };
             newPlayer2 = {
                 ...opponent,
                 points: Number(opponent.points) - diff,
                 game: Number(opponent.game) + 1,
                 series: `${diff > 0 ? 'L' : 'W'}${opponent.series.substring(0, 4)}`,
-                win: score[0] > score[1] ? opponent.win : Number(opponent.win) + 1,
-                loss: score[0] > score[1] ? Number(opponent.loss) + 1 : opponent.loss
+                win: scoreB[0] > scoreB[1] ? opponent.win : Number(opponent.win) + 1,
+                loss: scoreB[0] > scoreB[1] ? Number(opponent.loss) + 1 : opponent.loss
             };
-            if (score[0] > score[1]) setWin(true);
+            if (scoreB[0] > scoreB[1]) setWin(true);
             updatePlayer(newPlayer1);
             updatePlayer(newPlayer2);
             setDisplayResult(true);
         }
         return () => clearTimeout(handleTimeout);
-    }, [score]);
+    }, [scoreB]);
 
     
     return(
@@ -82,7 +83,7 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
                         <div className="name">{player1.fullname}</div>
                     </div>
                     <div className="score">
-                        {score[0]}
+                        {scoreB[0]}
                     </div>
                 </div>
                 <div className="sep">-</div>
@@ -95,7 +96,7 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
                         <div className="name">{player2.fullname}</div>
                     </div>
                     <div className="score">
-                        {score[1]}
+                        {scoreB[1]}
                     </div>
                 </div>
             </div>
