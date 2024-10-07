@@ -10,9 +10,8 @@ export default async function LayoutWrapper({children}: Props) {
     // const playersequest: Promise<Player[]> = await getPlayers()
     const players: Promise<Player[]> =  await getPlayers();
     return(
-        <div>
+        <>
             <LayoutMain players={players} children={children}></LayoutMain>
-            <main></main>
-        </div> 
+        </>
     )
 }

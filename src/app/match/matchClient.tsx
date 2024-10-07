@@ -4,8 +4,7 @@ import { PlayersContext } from "@/components/layouts/LayoutMain";
 import { Player, Match, Calendar } from "@/helpers/types";
 import Game from "@/components/Game";
 import OtherGames from "@/components/OtherGames";
-import { setResult } from "@/helpers/actions";
-import "./styles.css";
+import match from "./styles.module.css";
 
 interface Props {
     oPlayers: Player[];
@@ -68,6 +67,7 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
     const players = oPlayers;
     const [posterUpdate, setPosterUpdate] = useState(false);
     const [playNext, setPlayNext] = useState(false);
+    const isLeagueOver = playNext && currentPlayer.game === 9 ? true : false;
     const posterReverse = (tog: boolean) => {
         setPosterUpdate(tog);
         setPlayNext(false);
@@ -93,7 +93,9 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
 
     let currentMatch: Match = [];
     let otherMatches: Match[] = [];
-    calendar[currentPlayer.game].forEach((match) => {
+    const calendarDay = currentPlayer.game > calendar.length - 1 ? calendar.length - 1 : currentPlayer.game;
+
+    calendar[calendarDay].forEach((match) => {
         if (match.indexOf(Number(currentPlayer.id)) > -1) {
             currentMatch = match;
         } else {
@@ -125,8 +127,9 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
 
     return(
         <>
-            <div className="match-page">
-                <Game 
+            {/* <div className={`match-page ${isLeagueOver ? "league-over" : ""}`}> */}
+            <div className={`${match["match-page"]} ${isLeagueOver ? match["league-over"] : ""}`}>
+                <Game
                     player={player} 
                     opponent={opponent} 
                     chances={chances} 
@@ -135,7 +138,8 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
                     playNext={playNext}
                 >
                 </Game>
-                <div className="tab-games">
+                <div className={match["tab-games"]}>
+                
                     <>
                     {
                         otherGames.map((game, idx) => (

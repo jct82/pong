@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { Player } from "@/helpers/types";
 import playerImgPath from "@/utils/GetImgPlayer";
-import "@/app/match/styles.css";
+// import "@/app/match/styles.css";
+import match from "@/app/match/styles.module.css";
 
 
 function playPoint(chances: number) {
@@ -38,7 +39,7 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
     };
 
     useEffect(() => {
-        let handleTimeout;
+        let handleTimeout: ReturnType<typeof setTimeout>;
         if ((scoreB[0] < 5 && scoreB[1] < 5) || (Math.abs(scoreB[0] - scoreB[1]) < 2)) {
             handleTimeout = setTimeout(() => {
                 setScoreB(playPoint(chanceRate) ? [scoreB[0] + 1, scoreB[1]] : [scoreB[0], scoreB[1] + 1]);
@@ -73,29 +74,29 @@ export default function OtherGames({player, opponent, chances, updatePlayer, pos
     
     return(
         <>
-            <div className={`line-game ${displayResult && (win ? "game-win" : "game-loss")}`}>
-                <div className="player">
-                    <div className="info">
-                        <div className="photo">
+            <div className={`${match["line-game"]} ${displayResult && (win ? match["game-win"] : match["game-loss"])}`}>
+                <div className={match.player}>
+                    <div className={match.info}>
+                        <div className={match.photo}>
                             <img src={`/img/${playerImgPath(player1.fullname)}.png`}/>
                         </div>
-                        <div className="rank">{player1.rank}</div>
-                        <div className="name">{player1.fullname}</div>
+                        <div className={match.rank}>{player1.rank}</div>
+                        <div className={match.name}>{player1.fullname}</div>
                     </div>
-                    <div className="score">
+                    <div className={match.score}>
                         {scoreB[0]}
                     </div>
                 </div>
-                <div className="sep">-</div>
-                <div className="player opponent">
-                    <div className="info">
-                        <div className="photo">
+                <div className={match.sep}>-</div>
+                <div className={`${match.player} ${match.opponent}`}>
+                    <div className={match.info}>
+                        <div className={match.photo}>
                             <img src={`/img/${playerImgPath(player2.fullname)}.png`}/>
                         </div>
-                        <div className="rank">{player2.rank}</div>
-                        <div className="name">{player2.fullname}</div>
+                        <div className={match.rank}>{player2.rank}</div>
+                        <div className={match.name}>{player2.fullname}</div>
                     </div>
-                    <div className="score">
+                    <div className={match.score}>
                         {scoreB[1]}
                     </div>
                 </div>

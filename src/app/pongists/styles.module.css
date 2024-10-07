@@ -1,41 +1,41 @@
-.pongist-page .players {
+.players {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-.pongist-page .player {
+.player {
   width: 430px;
   box-sizing: content-box;
   padding: 30px 0px;
   border-bottom: 1px solid #afabab;
 }
 
-.pongist-page .player.current {
+.player.current {
   background-color: #f8f8ff;
 }
 
-.pongist-page .info {
+.info {
   display: flex;
   align-items: center;
 }
 
-.pongist-page .info > div {
+.info > div {
   flex-grow: 0;
   padding: 8px;
   font-size: 20px;
   font-weight: bold;
 }
 
-.pongist-page .info .age {
+.info .age {
   flex-grow: 1;
 }
 
-.pongist-page .info .age span{
+.info .age span{
   font-size: 15px;
 }
 
-.pongist-page .select-player {
+.select-player {
   border: none;
   background-color: #99a3ab;
   padding: 6px 9px;
@@ -44,86 +44,86 @@
   font-family: monospace;
 }
 
-.pongist-page .main-info {
+.main-info {
   display: flex;
   margin-top: 20px;
 }
 
-.pongist-page .main-info .photo{
+.main-info .photo{
   width: 160px;
   margin-right: 20px;
 }
 
-.pongist-page .main-info .photo img{
+.main-info .photo img{
   width: 100%;
 }
 
-.pongist-page .main-info .stat{
+.main-info .stat{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.pongist-page .main-info .stat-gauge{
+.main-info .stat-gauge{
   display: flex;
   height: 10px;
   align-items: center;
 }
 
-.pongist-page .main-info .stat-gauge .gauge{
+.main-info .stat-gauge .gauge{
   height: 10px;
 }
 
-.pongist-page .stat-bloc .stat-name {
+.stat-bloc .stat-name {
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-.pongist-page .stat-gauge .score {
+.stat-gauge .score {
   font-size: 18px;
   width: 38px;
 }
 
-.pongist-page .stat-name, .score{
+.stat-name, .score{
   flex-grow: 0;
   font-weight: bold;
 }
 
-.pongist-page .gauge {
+.gauge {
   flex-grow: 1;
   border: 1px solid #afabab;
 }
 
-.pongist-page .gauge div {
+.gauge div {
   background-color: rgb(44, 244, 9);
   height: 100%;
 }
 
-.pongist-page .stat-name{
+.stat-name{
   width: 250px;
 }
 
-.pongist-page .score{
+.score{
   width: 50px;
   text-align: center;
 }
 
-.pongist-page .match-stat {
+.match-stat {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
 }
 
-.pongist-page .match-stat span{
+.match-stat span{
   display: inline-block;
   width: 12px;
   height: 12px;
   border-radius: 12px;
 }
 
-.pongist-page .match-stat .win span{
+.match-stat .win span{
   background-color: green;
 }
-.pongist-page .match-stat .loss span{
+.match-stat .loss span{
   background-color: red;
 }

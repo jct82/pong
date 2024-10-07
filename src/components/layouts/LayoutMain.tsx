@@ -1,6 +1,6 @@
 'use client'
 import { useState, createContext } from "react";
-import { Player, PlayerProvider } from "@/helpers/types";
+import { Player } from "@/helpers/types";
 import Header from "@/components/Header";
 
 interface Props {
@@ -21,11 +21,14 @@ const defaultPlayer: Player = {
     strenght : 0,
     endurance : 0,
     points : 0,
-    rank : 0,
+    rank : 1,
     isOpponent : false
 }
 
-export const PlayersContext = createContext({players:[], currentPlayer:{}});
+export const PlayersContext = createContext({
+    playersArray:[], 
+    mainPlayer: defaultPlayer,
+});
 
 export function setPlayer(playersTab: Player[], playerId: number) {
     const player = playersTab.find(player => Number(playerId) === Number(player.id));
@@ -37,9 +40,9 @@ export default function LayoutMain({players, children}: Props) {
     const [currentPlayer, setCurrentPlayer] = useState<Player>(defaultPlayer);
     const updateCurrentPlayer = (playerId: number = 0) => (setCurrentPlayer(setPlayer(playersTab, playerId)));
     const updatePlayersTab = (newPlayers: Player[]) => (setPlayersTab(newPlayers));
-    const currentPlayerName: string = currentPlayer.fullname;
+    const player = playersTab.find(plr => plr.id === currentPlayer.id) || currentPlayer;
     return(
-        <div>
+        <>
             <PlayersContext.Provider value={
                 {
                     playersArray: playersTab,
@@ -48,9 +51,13 @@ export default function LayoutMain({players, children}: Props) {
                     setAllPlayers: updatePlayersTab
                 }
             }>
-                <Header playerName={currentPlayerName}></Header>
-                {children}
+                <>
+                    <Header currentPlayer={player}></Header>
+                    <main>
+                        {children}
+                    </main>
+                </>
             </PlayersContext.Provider>
-        </div> 
+        </> 
     )
 }

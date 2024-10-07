@@ -1,56 +1,56 @@
-.match-page .game{
+.game{
     position: relative;
     display:flex;
     width: 100%;
     padding: 40px;
 }
 
-.match-page .game .player{
+.game .player{
     display: flex;
     flex-direction: column;
     width: calc(50% - 60px);
 }
 
-.match-page .info {
+.info {
     margin-bottom: 30px;
     text-align: center;
 }
 
-.match-page .info > *{
+.info > *{
     display: inline-block;
 }
 
-.match-page .info .rank {
+.info .rank {
     margin-right: 20px;
 }
 
-.match-page .main-info {
+.main-info {
     display: flex;
     align-items: center;
     flex-grow: 1;
 }
 
-.match-page .main-info .score{
+.main-info .score{
     font-size: 65px;
     font-weight: bold;
     flex-grow: 1;
     text-align: right;
 }
 
-.match-page .player.opponent .photo{
+.player.opponent .photo{
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
 
-.match-page .player.opponent .main-info .score{
+.player.opponent .main-info .score{
     text-align:left;
 }
 
-.match-page .player.opponent .main-info .photo{
+.player.opponent .main-info .photo{
     order: 2;
 }
 
-.match-page .sep {
+.sep {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,14 +61,14 @@
     text-align: center;
 }
 
-.match-page .line-game {
+.line-game {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 50px;
 }
 
-.match-page .line-game .player {
+.line-game .player {
     display: flex;
     align-items: center;
     width: calc(50% - 25px);
@@ -78,89 +78,92 @@
     text-align: center;
 }
 
-.match-page .line-game .player .score{
+.line-game .player .score{
     transition: all 0.3s;
 }
-.match-page .line-game.game-win .player:not(.opponent) {
+.line-game.game-win .player:not(.opponent) {
     background-color: rgba(212, 226, 210, 0.5);
 }
-.match-page .line-game.game-win .player:not(.opponent) .score{
+.line-game.game-win .player:not(.opponent) .score{
     transform: scale(1.5) translateX(-10px);
 }
-.match-page .line-game.game-win .player.opponent{
+.line-game.game-win .player.opponent{
     background-color: rgba(226, 142, 136 , 0.3);
 }
-.match-page .line-game.game-win .player.opponent .score{
+.line-game.game-win .player.opponent .score{
     transform: scale(0.8) translateX(18px);
 }
 
-.match-page .line-game.game-loss .player:not(.opponent) {
+.line-game.game-loss .player:not(.opponent) {
     background-color: rgba(226, 142, 136 , 0.3);
 }
-.match-page .line-game.game-loss .player:not(.opponent) .score{
+.line-game.game-loss .player:not(.opponent) .score{
     transform: scale(0.8) translateX(-18px);
 }
-.match-page .line-game.game-loss .player.opponent{
+.line-game.game-loss .player.opponent{
     background-color: rgba(212, 226, 210, 0.5);
 }
-.match-page .line-game.game-loss .player.opponent .score{
+.line-game.game-loss .player.opponent .score{
     transform: scale(1.5) translateX(10px);
 }
 
-.match-page .line-game .info {
+.line-game .info {
     display: flex;
     align-items: center;
     flex-grow: 1;
     margin: 0;
 }
 
-.match-page .line-game .photo {
+.line-game .photo {
     width: 35px;
     height: 35px;
     border-radius: 100%;
     overflow: hidden;
 }
 
-.match-page .line-game .photo img{
+.line-game .photo img{
     width: 100%;
 }
 
-.match-page .line-game .rank,
-.match-page .line-game .name {
+.line-game .rank,
+.line-game .name {
     font-weight: bold;
     font-size: 18px;
 }
-.match-page .line-game .name {
+.line-game .name {
     text-align: left;
 }
-.match-page .line-game .rank {
+.line-game .rank {
     width: 35px;
 }
 
-.match-page .line-game .player.opponent .info{
+.line-game .player.opponent .info{
+    order: 2;
+    justify-content: flex-end;
+}
+
+.line-game .player.opponent .photo{
     order: 2;
 }
 
-.match-page .line-game .player.opponent .photo{
-    order: 2;
-}
-
-.match-page .line-game .player.opponent .rank{
+.line-game .player.opponent .rank{
     order: 1;
+    margin-right: 0;
+    margin-left: 20px;
 }
 
-.match-page .line-game .player.opponent .name{
+.line-game .player.opponent .name{
     order: 0;
     text-align: right;
 }
 
-.match-page .line-game .sep {
+.line-game .sep {
     margin: 0;
     width: 50px;
     font-weight: normal;
 }
 
-.match-page .game .replay-btn {
+.game .replay-btn {
     position: absolute;
     top: 0;
     left: 0;
@@ -176,7 +179,7 @@
     animation-delay: 1.5s;
 }
 
-.match-page .anim {
+.anim {
     position: absolute;
     top: 0;
     left: 0;
@@ -192,10 +195,10 @@
     animation: winner 1.5s forwards;
 }
 
-.match-page .game-win .anim {
+.game-win .anim {
     color: green;
 }
-.match-page .game-loss .anim {
+.game-loss .anim {
     color: rgb(219, 2, 2);
 }
 
@@ -213,4 +216,66 @@
         transform: scale(1) translateY(100px);
         opacity: 1;
     }
+}
+
+.final-board {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 100px;
+    width: 150px;
+    transform: translateY(150px);
+}
+
+.final-board .final-rank {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 70px;
+    font-weight: bold;
+}
+
+.final-board .final-rank sup{
+    font-size: 35px;
+}
+
+.final-board .medal{
+    width: 100%;
+    overflow: hidden;
+}
+
+.final-board .medal img{
+    width: 300%;
+}
+
+.final-board .medal .gold{
+    transform: translateX(20px);
+}
+
+.final-board .medal .silver{
+    transform: translateX(-150px);
+}
+
+.final-board .medal .bronze{
+    transform: translateX(-318px);
+}
+
+.match-page.league-over .sep,
+.match-page.league-over .main-info .score,
+.match-page.league-over .info .rank,
+.match-page.league-over .game .player.opponent,
+.match-page.league-over .anim,
+.match-page.league-over .tab-games{
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.match-page.league-over .final-board {
+    left: auto;
+    padding: 0 calc(25% - 75px);
+    box-sizing: content-box;
+    transform: translateY(-150px);
+    transition: all 0.3s;
 }

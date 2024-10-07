@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react";
 import PlayerMatch from "@/components/PlayerMatch";
 import { Player } from "@/helpers/types";
+import { getRankSuffix, getMedal } from "@/utils/LeagueOverElems";
 
-import "@/app/match/styles.css";
+import match from "@/app/match/styles.module.css";
+// import "@/app/match/styles.css";
 
 
 function playPoint(chances: number) {
@@ -41,7 +43,7 @@ export default function Game({player, opponent, chances, updatePlayer, posterRev
     }
 
     useEffect(() => {
-        let handleTimeoutMain;
+        let handleTimeoutMain: ReturnType<typeof setTimeout>;
         if ((score[0] < 5 && score[1] < 5) || (Math.abs(score[0] - score[1]) < 2)) {
             handleTimeoutMain = setTimeout(() => {
                 setScore(playPoint(chanceRate) ? [score[0] + 1, score[1]] : [score[0], score[1] + 1]);
@@ -76,12 +78,21 @@ export default function Game({player, opponent, chances, updatePlayer, posterRev
     
     return(
         <>
-            <div className={`game ${displayResult && (win ? "game-win" : "game-loss")}`}>
+            <div className={`${match.game} ${displayResult && (win ? match["game-win"] : match["game-loss"])}`}>
                 <PlayerMatch name={profilePlayer.fullname} score={score[0]} rank={profilePlayer.rank} isOpponent={profilePlayer.isOpponent}></PlayerMatch>
-                <div className="sep">VS</div>
+                <div className={match.sep}>VS</div>
                 <PlayerMatch name={profileOpponent.fullname} score={score[1]} rank={profileOpponent.rank} isOpponent={profileOpponent.isOpponent}></PlayerMatch>
-                {displayResult && <div className="anim">{win ? "WINNER" : "LOSER"}</div>}
-                {playNext && <button className="replay-btn" onClick={() => {updateMoiCa();}}>NEXT MATCH</button>}
+                {displayResult && <div className={match.anim}>{win ? "WINNER" : "LOSER"}</div>}
+                {playNext && (player.game === 9 ?
+                        <div className={match["final-board"]}>
+                            <div className={match["final-rank"]}>
+                                {player.rank}<sup>{getRankSuffix(player.rank)}</sup>
+                            </div> 
+                            {getMedal(player.rank)}
+                        </div> :
+                        <button className={match["replay-btn"]} onClick={() => {updateMoiCa();}}>NEXT MATCH</button>
+                    )
+                }
             </div>
         </>
     )

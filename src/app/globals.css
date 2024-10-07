@@ -35,8 +35,67 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+main {
+  min-height: calc(100vh - 130px);
+}
+
+
+/*****************HEADER****************/
+
+.header {
+  position: relative;
+}
+
+.logo {
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+  padding: 25px 80px;
+}
+
+.current-player, .menu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 25px;
+  padding: 0 20px;
+  display: flex;
+}
+
+.menu {
+  right: 0;
+}
+
+.current-player {
+  left: 0;
+}
+
+.current-player .photo{
+  width: 35px;
+  overflow: hidden;
+}
+.current-player .photo img{
+  width: 100%;
+}
+
+.menu {
+  right: 0;
+}
+
+.menu span:not(:first-child):after {
+  content:"";
+  position: absolute;
+  left: 0;
+  top: auto;
+  bottom: auto;
+  margin: auto;
+  width: 1px;
+  background-color: #3d3b3b;
+  height: 20px;
+}
+
+.menu span {
+  position: relative;
+  padding: 0 20px;
 }
