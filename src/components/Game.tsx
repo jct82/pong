@@ -5,13 +5,6 @@ import { Player } from "@/helpers/types";
 import { getRankSuffix, getMedal } from "@/utils/LeagueOverElems";
 
 import match from "@/app/match/styles.module.css";
-// import "@/app/match/styles.css";
-
-
-function playPoint(chances: number) {
-    let randomChances = Math.floor((Math.random() * 100) + 1);
-    return (randomChances * chances) > 50;
-}
 
 interface Props {
     player: Player;
@@ -20,6 +13,16 @@ interface Props {
     updatePlayer(player: Player): void;
     posterReverse(toggle:boolean): void;
     playNext: boolean;
+}
+
+/**
+ * Randomly attibute point to one of the players applying a correction coefficient (chances) depending on players stats
+ * @param chances 
+ * @returns boolean - main player lost or win the point
+ */
+function playPoint(chances: number) {
+    let randomChances = Math.floor((Math.random() * 100) + 1);
+    return (randomChances * chances) > 50;
 }
 
 export default function Game({player, opponent, chances, updatePlayer, posterReverse, playNext}: Props) {

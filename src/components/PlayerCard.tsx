@@ -13,7 +13,7 @@ interface Props {
 export default function PlayerCard({player}: Props) {
     const {id, fullname, age, accuracy, speed, strenght, endurance, game, win, loss} = player;
     const currentPlayer: number = useContext(PlayersContext).mainPlayer.id;
-    const setPlayerCopy = useContext(PlayersContext).setMainPlayer;
+    const setPlayerCopy: (id: number) => void = useContext(PlayersContext).setMainPlayer;
     return(
         <div className={`${pongist.player} ${currentPlayer === id ? pongist.current : ""}`}>
             <div className={pongist.info}>

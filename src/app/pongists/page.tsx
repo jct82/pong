@@ -17,7 +17,7 @@ export default function Pongist() {
     const mainPlayer = useContext(PlayersContext).mainPlayer;
     const currentPlayer: Player = players.find(plr => mainPlayer.id === plr.id) || mainPlayer;
     if (currentPlayer.game === 9) {
-        const resetPlayers = players.map(plr => ({
+        const resetPlayers: Player[] = players.map(plr => ({
             ...plr,
             game: 0,
             win: 0,
@@ -25,7 +25,7 @@ export default function Pongist() {
             series: "-----",
             points: 0
         }));
-        const resetPlayer = {
+        const resetPlayer: Player = {
             id: 0,
             fullname : '',
             age : 0,
@@ -38,6 +38,7 @@ export default function Pongist() {
             strenght : 0,
             endurance : 0,
             points : 0,
+            rank: 1,
             isOpponent : false
         }
         useContext(PlayersContext).setAllPlayers(resetPlayers);

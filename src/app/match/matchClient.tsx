@@ -11,6 +11,17 @@ interface Props {
     oCurrentPlayer: Player;
 }
 
+interface MatchItf {
+    player1: Player[];
+    player2: Player[];
+    chances: number;
+}
+
+/**
+ * Set championship calendar
+ * @param players - all players data object
+ * @returns array - A championship days array of 2 numbers arrays[player1 id, player2 id] 
+ */
 function getSeasonCalendar(players: Player[]) {
     const playersId: number[] = players.map(player => player.id);
     let teamA: number[] =  [...playersId].splice(0, 5);
@@ -31,6 +42,12 @@ function getSeasonCalendar(players: Player[]) {
     return calendar;
 } 
 
+/**
+ * Set player rank
+ * @param currentPlayer - selected player data object
+ * @param players - all players data objects
+ * @returns number - player's rank
+ */
 function findRank(currentPlayer: Player, players: Player[]): number {
     const bestFiltered = players.filter(player => (Number(currentPlayer.win) < Number(player.win)));
     const equalFiltered = players.filter(player => (Number(currentPlayer.win) === Number(player.win)));
@@ -39,16 +56,34 @@ function findRank(currentPlayer: Player, players: Player[]): number {
     return rank;
 }
 
+/**
+ * Get opponent player in current match
+ * @param match - array of match players id  
+ * @param players - all players data objects
+ * @param mainPlayer - selected player data object
+ * @returns Player - selected player opponent data object
+ */
 function getContender(match: Match, players: Player[], mainPlayer: number): Player {
     const opponentId = match.find(id => (id !== Number(mainPlayer)));
     const opponentPlayer = players.find((player: Player) => (Number(player.id) === opponentId));
     return opponentPlayer !== undefined ? opponentPlayer : players[0];
 }
 
+/**
+ * Calculate players stats
+ * @param player 
+ * @returns number corresponding to globals player's performance
+ */
 function getPlayerStat(player: Player) {
     return ((player.accuracy * 3) + (player.speed * 2) + (player.strenght * 2) + player.endurance) / 8;
 }
 
+/**
+ * Turn match array of players id to array of players data object
+ * @param otherMatches - array of day matches arrays [player1 id, player2 id]
+ * @param players - all players data objects
+ * @returns - array of two players data object set for otherMatch component 
+ */
 const setOtherGamesComponent = (otherMatches: Array<number[]>, players: Player[]) => {
     const matchPlayers = otherMatches.map((match) => ([
         players.find((player: Player) => Number(player.id) === match[0]),
@@ -57,7 +92,7 @@ const setOtherGamesComponent = (otherMatches: Array<number[]>, players: Player[]
     return matchPlayers.map((match) => ({
         player1: {...match[0], rank: findRank(match[0]!, players)},
         player2: {...match[1], rank: findRank(match[1]!, players)},
-        chances: Math.round((getPlayerStat(match[0]) / getPlayerStat(match[1])) * 100) / 100
+        chances: Math.round((getPlayerStat(match[0]!) / getPlayerStat(match[1]!)) * 100) / 100
     }));
 }
 
@@ -77,6 +112,11 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
     const [calendar, setCalendar] = useState<Calendar>(getSeasonCalendar(players));
     const setPlayersCopy = useContext(PlayersContext).setAllPlayers;
     
+    /**
+     * Update player's data record withdata of last updated player
+     * If all players are updated (all match played), update players data in context provider
+     * @param player 
+     */
     const updatePlayer: (arg:Player) => void = (player: Player) => {
         newPlayers.current = [...newPlayers.current, player];
         setPosterUpdate(false);
@@ -127,7 +167,6 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
 
     return(
         <>
-            {/* <div className={`match-page ${isLeagueOver ? "league-over" : ""}`}> */}
             <div className={`${match["match-page"]} ${isLeagueOver ? match["league-over"] : ""}`}>
                 <Game
                     player={player} 
@@ -139,7 +178,6 @@ export default function MatchClient({oPlayers, oCurrentPlayer}: Props) {
                 >
                 </Game>
                 <div className={match["tab-games"]}>
-                
                     <>
                     {
                         otherGames.map((game, idx) => (

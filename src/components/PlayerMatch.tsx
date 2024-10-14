@@ -1,6 +1,5 @@
 
 'use client'
-// import "@/app/match/styles.css";
 import match from "@/app/match/styles.module.css";
 import playerImgPath from "@/utils/GetImgPlayer";
 

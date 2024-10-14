@@ -28,6 +28,8 @@ const defaultPlayer: Player = {
 export const PlayersContext = createContext({
     playersArray:[], 
     mainPlayer: defaultPlayer,
+    setMainPlayer: () => {defaultPlayer},
+    setAllPlayers: () => {[defaultPlayer]}
 });
 
 export function setPlayer(playersTab: Player[], playerId: number) {

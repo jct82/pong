@@ -10,7 +10,7 @@ export default function Match() {
     const players: Player[] = useContext(PlayersContext).playersArray;
     const mainPlayer: Player =  useContext(PlayersContext).mainPlayer;
     if (mainPlayer.id === 0) redirect('/');
-    const currentPlayer = players.find(player => player.id === mainPlayer.id);
+    const currentPlayer: Player = players.find(player => player.id === mainPlayer.id)!;
 
     return(
         <>
